@@ -1,6 +1,6 @@
 body {
 	font-family:Verdana, Tahoma, Helvetica, Arial;
-	background:url('fond.jpg');
+	background:url('../images/fond.jpg');
 	margin:0;
 	padding:0;
 	min-height: 100%;
@@ -8,6 +8,12 @@ body {
 
 #conteneur {
 	margin-right:300px;
+}
+
+#corps {
+	background:rgba(255,255,255,0.5);
+	margin:30px;
+	padding:10px;
 }
 
 #header {

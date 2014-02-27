@@ -1,12 +1,8 @@
-<?php include 'grille.php'; ?>
-<!doctype html>
-<html>
-<head>
-	<meta charset="UTF-8">
-	<title>WebSocket Game</title>
-	<link rel="stylesheet" type="text/css" href="design.css" media="screen"/>
-</head>
-<body>
+<?php
+require 'ressources/entetes.php';
+require 'ressources/grille.php';
+entete('Plateau');
+?>
 
 	<div id="chat">
 		<h1>Chat</h1>
@@ -37,12 +33,7 @@
 		<?php echo genererGrille(10, 500); ?>
 		</div>
 
-		<script src="http://www.google.com/jsapi"></script>
-		<script>google.load("jquery", "1.3")</script>
-		<script src="http://jquery-json.googlecode.com/files/jquery.json-2.2.min.js"></script>
-		<script src="tools.js"></script>
-		<script src="jquery.ws.js"></script>
-		<script src="Chat.js"></script>
+
 
 
 		<script>
@@ -130,5 +121,5 @@
 
 	</div>
 
-</body>
-</html>
+<?php
+pied();
