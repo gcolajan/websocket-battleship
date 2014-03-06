@@ -18,10 +18,9 @@ entete('Plateau');
 
 		<div id="operations">
 			<h1>Opérations</h1>
-			<input id="pseudo" type="text" placeholder="Pseudo" /><br />
-			<section id="content"></section>
-			<input type="submit" id="join" value="Rejoindre une partie" />
 
+			<input type="submit" id="join" value="Rejoindre une partie" />
+			<section id="content"></section>
 			<h2>Joueurs</h2>
 			<ul id="players"></ul>
 		</div>
@@ -29,8 +28,24 @@ entete('Plateau');
 
 
 		<div id="bataille">
-			<h1>Champ de bataille</h1>
-		<?php echo genererGrille(10, 500); ?>
+
+			<div id="grille">
+				<h1>Champ de bataille</h1>
+				<?php echo genererGrille(10, 500); ?>
+			</div>
+
+			<div id="connexion">
+				<h1>Connexion</h1>
+
+				<fieldset>
+					<legend>Rejoindre une partie</legend>
+					<form id="identification" action="#">
+						<p>Afin de rejoindre les autres joueurs, choisissez un pseudo :<br />
+						<input id="pseudo" type="text" placeholder="Pseudo" />
+						<input type="submit" value="Connexion" /></p>
+					</form>
+				</fieldset>
+			</div>
 		</div>
 
 
@@ -54,7 +69,7 @@ entete('Plateau');
 			players.forEach( addPlayer );
 		}
 
-		var ws = $.websocket("ws://192.168.1.78:8080/", {
+		var ws = $.websocket("ws://localhost:8080/", {
 				events: {
 						info: function(e) {chat.info(e.data);},
 						p_in: function(e) {chat.info(e.data + " a rejoint le serveur"); players.push(e.data); showPlayers();},
@@ -99,10 +114,14 @@ entete('Plateau');
 				}
 		});
 
-		$('#pseudo').change(function(){
-		  ws.send('pseudo', this.value);
-		  this.disabled = true;
-		  $('#message').removeAttr('disabled');
+		$('#identification').submit(function( event ) {
+			ws.send('pseudo', $('#pseudo').val());
+			
+			$('#pseudo').attr('disabled', 'disabled');
+			$('#message').removeAttr('disabled');
+
+			$('#connexion').css('display', 'none');
+			$('#grille').css('display', 'block');
 		});
 
 		$('#message').change(function(){

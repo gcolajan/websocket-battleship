@@ -97,6 +97,14 @@ body {
 	text-align: center;
 }
 
+#grille {
+	display:none;
+}
+
+#connexion {
+
+}
+
 #operations h1, #chat h1, #bataille h1 {
 	margin:0;
 	padding:5px;
