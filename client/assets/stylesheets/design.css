@@ -98,7 +98,7 @@ body {
 }
 
 #grille {
-	display:none;
+	/*display:none;*/
 }
 
 #connexion {
@@ -119,4 +119,39 @@ body {
 #pied {
 	margin:30px;
 	background:rgba(255,255,255,0.5);
+}
+
+
+/* Grille */
+
+.posGrille text {
+	text-anchor: middle;
+	dominant-baseline: central;
+}
+
+g.cases rect {
+	fill:rgba(255,255,255,0.6);
+ 	transition: fill ease 0ms;
+}
+
+g.cases rect.possible {
+	fill:rgba(0,200,50,0.6);
+}
+
+g.cases rect.impossible {
+	fill:rgba(200,20,50,0.6);
+}
+
+g.cases rect.selectedCase {
+	fill:rgba(100,100,100,0.6);
+}
+
+.go {
+	fill:black;
+	stroke:black;
+}
+
+
+.cases rect:hover {
+	fill:rgba(20,50,200,0.5);
 }

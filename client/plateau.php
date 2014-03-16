@@ -23,6 +23,9 @@ entete('Plateau');
 			<section id="content"></section>
 			<h2>Joueurs</h2>
 			<ul id="players"></ul>
+
+			<h2>Bateaux</h2>
+			<ul id="ships"></ul>
 		</div>
 
 
@@ -48,13 +51,25 @@ entete('Plateau');
 			</div>
 		</div>
 
-
-
-
 		<script>
+		var shipsFromServer = [
+			{nom: 'porte-avion',
+			taille: 5},
+			{nom: 'sous-marin',
+			taille: 3}
+		];
+
 		var chat = new Chat();
 		var numPartie = 0;
 		var players = [];
+
+		var grilleJoueur = new Grille(10);
+		var grilleAdversaire = new Grille(10);
+		var flotte = new Flotte(grilleJoueur);
+
+
+		flotte.receiving(shipsFromServer);
+		flotte.writeList();
 
 		function erasePlayers() {
 			$('#players').html('');
@@ -132,6 +147,81 @@ entete('Plateau');
 		$('#join').click(function(){
 		  ws.send('game', 'join');
 		});
+
+		$('.cases rect').click(function() {
+			if (flotte.hasSelectedShip())
+			{
+				var coord = new Coord(this.id);
+				var ship = flotte.selectedShip;
+
+				if (!ship.hasC1())
+					if (ship.setC1(coord))
+					{
+						this.classList.add('selectedCase');
+						// Dessiner les placements possibles
+					}
+				else
+				{
+					if (ship.setC2(coord))
+					{
+						this.classList.add('selectedCase');
+						flotte.unselect();
+					}
+				}
+
+			}
+			console.log('clicked: '+new Coord(this.id).print());
+		});
+
+
+		$('.cases rect').mouseover(function() {
+			if (flotte.hasSelectedShip())
+			{
+				var coord = new Coord(this.id);
+				var ship = flotte.selectedShip;
+
+				if (!ship.hasC1())
+					if (ship.couldBeC1(coord))
+						this.classList.add('possible');
+					else
+						this.classList.add('impossible');
+				else
+				{
+					if (ship.couldBeC2(coord))
+					{
+						this.classList.add('possible');
+						//var coords = ship.coord1.to(coord);
+						//for (var i = 0 ; i < coords.length ; i++)
+						//	document.querySelector('svg g.cases rect#case_'+coords[i].print()).addClass('go');
+					}
+				}
+			}
+		});
+
+		$('.cases rect').mouseout(function() {
+			if (flotte.hasSelectedShip())
+			{
+				var ship = flotte.selectedShip;
+				if (!ship.hasC1())
+				{
+					this.classList.remove('possible');
+					this.classList.remove('impossible');
+				}
+				else
+				{
+					this.classList.remove('possible');
+				}
+			}
+
+		});
+
+
+		/* pour plus tard...
+		// clic droit
+		$('.cases rect').bind('contextmenu', function(e) {
+			//
+			e.preventDefault();
+		});*/
 		</script>
 
 		<div style="clear:both;"></div>
